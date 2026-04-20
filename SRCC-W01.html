@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<style>
+    @page {
+        size: A4;
+        margin: 0;
+        background-color: #0b0b0b;
+    }
+    body {
+        font-family: "PingFang TC", "Microsoft JhengHei", sans-serif;
+        color: #d1d1d1;
+        line-height: 1.6;
+        margin: 0;
+        padding: 25mm;
+        background-color: #0b0b0b;
+    }
+    .header {
+        border-bottom: 2px solid #b71c1c;
+        padding-bottom: 15pt;
+        margin-bottom: 30pt;
+        position: relative;
+    }
+    .confidential-stamp {
+        position: absolute;
+        top: 0;
+        right: 0;
+        border: 2px solid #b71c1c;
+        color: #b71c1c;
+        padding: 5pt 10pt;
+        font-weight: bold;
+        transform: rotate(4deg);
+        font-size: 11pt;
+        letter-spacing: 1pt;
+    }
+    h1 {
+        font-size: 20pt;
+        margin: 0;
+        color: #ffffff;
+        letter-spacing: 2pt;
+    }
+    .file-meta {
+        font-size: 9pt;
+        color: #666;
+        margin-top: 10pt;
+        font-family: "Courier New", monospace;
+    }
+    .section {
+        margin-bottom: 20pt;
+    }
+    h2 {
+        font-size: 13pt;
+        background: #1a1a1a;
+        color: #ef5350;
+        padding: 5pt 12pt;
+        margin-top: 0;
+        border-left: 5px solid #b71c1c;
+    }
+    .sub-section {
+        margin-top: 10pt;
+        padding-left: 10pt;
+    }
+    .sub-title {
+        font-weight: bold;
+        color: #ffffff;
+        display: block;
+        margin-bottom: 5pt;
+        text-decoration: underline;
+        text-underline-offset: 4pt;
+    }
+    ul {
+        margin: 8pt 0;
+        padding-left: 20pt;
+    }
+    li {
+        margin-bottom: 6pt;
+    }
+    strong {
+        color: #ffffff;
+    }
+    .risk-analysis {
+        border: 1px solid #b71c1c;
+        padding: 15pt;
+        margin-top: 40pt;
+        background-color: #1e0000;
+    }
+    .risk-title {
+        color: #ff5252;
+        font-weight: bold;
+        font-size: 13pt;
+        margin-bottom: 10pt;
+        display: block;
+        text-transform: uppercase;
+    }
+    .note-item {
+        font-size: 10pt;
+        margin-top: 6pt;
+        padding-left: 15pt;
+        position: relative;
+        color: #999;
+    }
+    .note-item::before {
+        content: "▶";
+        position: absolute;
+        left: 0;
+        color: #b71c1c;
+        font-size: 8pt;
+    }
+.pdf-attachment-zone {
+        margin-top: 25pt;
+        background: #121212;
+        border: 1px solid #333;
+        padding: 15pt;
+        border-radius: 4px;
+    }
+    .pdf-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12pt;
+        margin-top: 10pt;
+    }
+    .pdf-card {
+        border: 1px solid #444;
+        background: #1a1a1a;
+        padding: 12pt;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    /* 模擬掃描光效 */
+    .pdf-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(183, 28, 28, 0.05), transparent);
+        transform: rotate(45deg);
+        transition: 0.5s;
+    }
+    .pdf-card:hover::after {
+        left: 100%;
+    }
+    .pdf-icon {
+        color: #b71c1c;
+        font-size: 20pt;
+        margin-right: 12pt;
+        font-weight: bold;
+    }
+    .pdf-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .pdf-name {
+        font-family: "Courier New", monospace; /* 配合你指定的檔名風格 */
+        font-size: 9.5pt;
+        color: #ef5350;
+        word-break: break-all;
+    }
+    .pdf-size {
+        font-size: 8pt;
+        color: #666;
+        font-family: "Courier New", monospace;
+    }
+    .security-notice {
+        font-size: 8pt;
+        color: #ef5350;
+        margin-top: 10pt;
+        text-align: right;
+        font-style: italic;
+    }
+</style>
+</head>
+<body>
+    <div class="header">
+        <div class="confidential-stamp">RESTRICTED ACCESS</div>
+        <h1>📁 監控報告：目標 W-23（Hart Walter）</h1>
+        <div class="file-meta">
+            DOCUMENT ID: SRCC-OBS/W23-██<br>
+            SECURITY LEVEL: LEVEL-3<br>
+            DEPARTMENT: S.R.C.C INTELLIGENCE UNIT<br>
+            OPERATIONAL LOG: 2003 – 2026
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>1. 背景履歷 (Background Summary)</h2>
+        <div class="sub-section">
+            <span class="sub-title">0–15歲</span>
+            於「沃爾特家族」內部培訓體系成長。內容聚焦於生理耐受壓測、解剖實作與極限環境生物反應訓練。已完成對痛覺與情緒反應的生理性剝離。
+        </div>
+        <div class="sub-section">
+            <span class="sub-title">15歲</span>
+            首宗清除任務紀錄顯示其無遲疑、無多餘攻擊、無情緒波動，具備異常穩定的心理素質。
+        </div>
+        <div class="sub-section">
+            <span class="sub-title">15–18歲</span>
+            參與家族內部肅清行動。此期間確立戰鬥動作標準化，並建立「目標即物件」的認知邏輯。
+        </div>
+        <div class="sub-section">
+            <span class="sub-title">18–23歲</span>
+            大學期間獨立處置多起外部暗殺威脅，將戰鬥程序完全固化為本能反射。
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. 戰術能力分析 (Tactical Assessment)</h2>
+        <ul>
+            <li><strong>核心作戰邏輯：</strong>將人體解剖結構視為動態地圖，由辨識結構直接導向物理破壞。</li>
+            <li><strong>打擊特徵：</strong>動作位移在 5–10 公分內，接觸時間極短，追求瞬時功能性終結。</li>
+            <li><strong>非傳統武裝：</strong>具備將常規物品轉化為殺傷工具的技術，利用力學結構執行穿刺與破壞。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. 武器運用能力 (Weapon Proficiency)</h2>
+        <ul>
+            <li><strong>冷兵器應用：</strong>精準鎖定動脈與肌腱連接處，擅長利用硬質物體執行槓桿打擊導致關節脫位。</li>
+            <li><strong>槍械運用：</strong>採取近距離快速射擊，彈著點鎖定中樞神經區域。具備負傷狀態下維持精度輸出的能力。</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. 生理與神經特性 (Physiological Profile)</h2>
+        <ul>
+            <li><strong>痛覺抑制：</strong>具備神經系統脫敏特質，在重傷情況下仍能維持微米級精準度。</li>
+            <li><strong>藥物耐受：</strong>肝臟代謝率異常。對麻醉劑、鎮靜劑具備極高耐受，常規控制手段效果極低。</li>
+            <li><strong>反射機制：</strong>威脅觸發時行動優先於認知，大腦皮層下形成了高度發達的自動化反應。</li>
+        </ul>
+    </div>
+
+    <div class="risk-analysis">
+        <span class="risk-title">⚠️ 綜合風險分析 (Final Risk Analysis)</span>
+        目標心理穩定性處於非正常人類感知範圍，控制難度極高。抗壓與抗誘導能力強，審訊價值判定為低。
+        <br><br>
+        <strong>📌 處置注意事項 (Operational Notes)</strong>
+        <div class="note-item">應維持非接觸式監控，減少對目標預警範圍的干擾。</div>
+        <div class="note-item">任何物理性拘捕嘗試均存在極高的人員傷亡風險。</div>
+        <div class="note-item">接觸時需確保管制區域內不存在任何可作為物理媒介的環境物件。</div>
+    </div>
+
+    <div class="section">
+        <h2>📂 系統附件：原始存檔 (System Attachments)</h2>
+        <div class="pdf-attachment-zone">
+            <div class="pdf-grid">
+                <a href="Hart_Walter_Classified_File.pdf" class="pdf-card" download>
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-info">
+                        <span class="pdf-name">個人資料</span>
+                        <span class="pdf-size">FILE TYPE: DOCUMENT/PDF | AUTH: L5</span>
+                    </div>
+                </a>
+    
+                <a href="Hart_Walter_Medical_Report.pdf" class="pdf-card" download>
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-info">
+                        <span class="pdf-name">藥物紀錄</span>
+                        <span class="pdf-size">FILE TYPE: DATA/BIOMETRIC | AUTH: L5</span>
+                    </div>
+                </a>
+    
+                <a href="PSY_EVL_W01_dark_reformatted.pdf" class="pdf-card" download>
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-info">
+                        <span class="pdf-name">精神報告鑑定</span>
+                        <span class="pdf-size">FILE TYPE: TACTICAL/SOP | AUTH: L5</span>
+                    </div>
+                </a>
+    
+                <a href="SRCC_Report_W01_extreme_layout.pdf" class="pdf-card" download>
+                    <div class="pdf-icon">📄</div>
+                    <div class="pdf-info">
+                        <span class="pdf-name">情報分析</span>
+                        <span class="pdf-size">FILE TYPE: EVIDENCE/SCAN | AUTH: L5</span>
+                    </div>
+                </a>
+            </div>
+            <div class="security-notice">
+                ⚠️ 警告：偵測到文件包含極端佈局資料。下載後請確認環境安全，嚴禁外流。
+            </div>
+        </div>
+    </div>
+</body>
+</html>
