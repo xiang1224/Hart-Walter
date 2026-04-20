@@ -87,19 +87,15 @@
 
     /* 真實圖片處理樣式 (核心單色化與光暈) */
     .hacker-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover; /* 填充容器 */
-        
-        /* 核心處理：將全彩圖片轉變為經典駭客綠 */
-        /* grayscale(100%): 轉為黑白 */
-        /* sepia(100%) hue-rotate(90deg) saturate(1000%): 轉為單色綠 */
-        filter: grayscale(100%) brightness(1.1) sepia(100%) hue-rotate(90deg) saturate(800%) drop-shadow(0 0 5px #0f0);
-        
-        transition: all 0.5s ease;
-        position: relative;
-        z-index: 1;
-    }
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* 初始：黑白且低亮度 */
+            filter: grayscale(100%) brightness(0.5); 
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 1;
+        }
 
     /* 數位掃描格線疊加層 */
     .scan-grid {
@@ -122,6 +118,61 @@
         opacity: 0; /* 預設隱藏 */
         mix-blend-mode: color; /* 使用混合模式改變圖片顏色 */
         z-index: 3;
+        transition: opacity 0.5s ease;
+    }
+    /* 2. 破解中狀態：啟動駭客綠濾鏡與動畫 */
+    .logo-active .hacker-image {
+        filter: grayscale(100%) brightness(1.1) sepia(100%) hue-rotate(90deg) saturate(800%) drop-shadow(0 0 5px #0f0);
+    }
+
+    /* 動畫只在含有 .logo-animate 類別時觸發 */
+    .logo-animate {
+        animation: image-glitch 3.5s infinite;
+    }
+
+    /* 3. 破解完成狀態：轉為紅色 */
+    .logo-cracked .hacker-image {
+        filter: grayscale(100%) brightness(1.2) sepia(100%) hue-rotate(330deg) saturate(1000%) drop-shadow(0 0 12px #b71c1c) !important;
+        transform: scale(1.03);
+        animation: none; /* 停止閃爍動畫 */
+    }
+
+    #button-container {
+        margin-top: 30pt;
+        z-index: 10001;
+    }
+
+    #start-crack-btn {
+        background: transparent;
+        color: #0f0;
+        border: 1px solid #0f0;
+        padding: 10pt 25pt;
+        font-family: 'Courier New', monospace;
+        font-size: 12pt;
+        font-weight: bold;
+        cursor: pointer;
+        letter-spacing: 2pt;
+        position: relative;
+        transition: all 0.3s;
+        box-shadow: 0 0 5px rgba(0, 255, 0, 0.2);
+    }
+
+    #start-crack-btn:hover {
+        background: rgba(0, 255, 0, 0.1);
+        box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        text-shadow: 0 0 5px #0f0;
+    }
+
+    #start-crack-btn:active {
+        transform: scale(0.95);
+        background: #0f0;
+        color: #000;
+    }
+
+    /* 點擊按鈕後隱藏按鈕的動畫 */
+    .hide-btn {
+        opacity: 0;
+        pointer-events: none;
         transition: opacity 0.5s ease;
     }
 
@@ -373,25 +424,27 @@
 </head>
 <body>
     <div id="crack-overlay">
-        <div class="hacker-logo-space logo-animate" id="logo-container">
+        <div class="hacker-logo-space" id="logo-container">
             <img src="hacker_tomato_agent.png" alt="Tomato Hacker Agent" class="hacker-image" id="tomato-img">
-    
             <div class="scan-grid"></div>
-    
             <div class="success-overlay"></div>
         </div>
     
         <div class="terminal-text" id="terminal">
-            > INITIALIZING BRUTE FORCE: [TOMATO_V1.0]<br>
-            > TARGET: SRCC_INTERNAL_DATABASE<br>
-            > ID: TOMATO_EXTRACTOR_V1.0<br>
-            > BYPASSING KERNEL RESTRICTIONS...<br>
-            > ACCESSING SECTOR 0x004F2...
+            > SYSTEM READY.<br>
+            > WAITING FOR COMMAND...
         </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="bar"></div>
+    
+        <div id="button-container">
+            <button id="start-crack-btn">EXECUTE BRUTE FORCE</button>
         </div>
-        <div class="system-status" id="status">DECRYPTING: 0%</div>
+    
+        <div id="progress-wrapper" style="display: none; flex-direction: column; align-items: center;">
+            <div class="progress-container">
+                <div class="progress-bar" id="bar"></div>
+            </div>
+            <div class="system-status" id="status">INITIALIZING...</div>
+        </div>
     </div>
 
     <div class="header">
@@ -512,7 +565,10 @@
     const status = document.getElementById('status');
     const overlay = document.getElementById('crack-overlay');
     const logoContainer = document.getElementById('logo-container');
-    const watermark = document.getElementById('hacker-watermark-container'); // 取得浮水印容器
+    const watermark = document.getElementById('hacker-watermark-container');
+    const startBtn = document.getElementById('start-crack-btn');
+    const btnContainer = document.getElementById('button-container');
+    const progressWrapper = document.getElementById('progress-wrapper');
 
     const messages = [
         "> INITIALIZING BRUTE FORCE: [TOMATO_V1.0]",
@@ -532,7 +588,24 @@
     const intervalTime = 50;
     const increment = 100 / (totalTime / intervalTime);
 
+    // 監聽按鈕點擊
+    startBtn.addEventListener('click', () => {
+            // 1. 隱藏按鈕與顯示進度條
+            btnContainer.style.display = 'none';
+            progressWrapper.style.display = 'flex';
+
+            // 2. 【核心改動】啟動 Logo 變色與動畫
+            logoContainer.classList.add('logo-active');   // 觸發綠色濾鏡
+            logoContainer.classList.add('logo-animate');  // 觸發閃爍故障效果
+
+            // 3. 開始破解
+            simulateCrack();
+        });
+
     function simulateCrack() {
+        // 清空終端機預設文字
+        terminal.innerHTML = "";
+
         const interval = setInterval(() => {
             let jitter = Math.random() * 2;
             if (progress > 30 && progress < 40) jitter *= 0.2;
@@ -562,27 +635,28 @@
     }
 
     function finishCrack() {
-        // 1. Logo 變紅並停止閃爍
-        logoContainer.classList.remove('logo-animate');
-        logoContainer.classList.add('logo-cracked');
-        status.innerText = "ACCESS GRANTED. OPENING FILE...";
-        status.style.color = "#b71c1c";
+            // 破解完成時
+            logoContainer.classList.remove('logo-active');
+            logoContainer.classList.remove('logo-animate');
+            logoContainer.classList.add('logo-cracked'); // 轉為紅色
 
-        setTimeout(() => {
-            // 2. 開場遮罩淡出
-            overlay.classList.add('fade-out');
+            status.innerText = "ACCESS GRANTED. OPENING FILE...";
+            status.style.color = "#b71c1c";
 
-            // 3. 【關鍵修正】顯示浮水印並啟動呼吸燈
-            watermark.style.opacity = "1";
-            watermark.classList.add('pulse-active');
+            const watermark = document.getElementById('hacker-watermark-container');
 
             setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 1000);
-        }, 1200);
-    }
+                overlay.classList.add('fade-out');
 
-    window.onload = simulateCrack;
+                // 觸發右下角浮水印
+                watermark.style.opacity = "1";
+                watermark.classList.add('pulse-active');
+
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1000);
+            }, 1200);
+        }
 </script>
 
 </html>
